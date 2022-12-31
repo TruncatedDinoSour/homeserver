@@ -5,10 +5,10 @@
 from secrets import SystemRandom
 import os
 
-_prod: bool = os.environ.get("PROD") is not None
+PROD: bool = os.environ.get("PROD") is not None
 
-HOST: str = "0.0.0.0" if _prod else "127.0.0.1"
-PORT: int = 80 if _prod else 8080
+HOST: str = "0.0.0.0" if PROD else "127.0.0.1"
+PORT: int = 80 if PROD else 8080
 
 RANDOM: SystemRandom = SystemRandom()
 

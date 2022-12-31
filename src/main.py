@@ -11,7 +11,7 @@ from homeserver import config, create_homeserver
 def main() -> int:
     """Entry/main function"""
 
-    create_homeserver().run(config.HOST, config.PORT)
+    create_homeserver().run(config.HOST, config.PORT, debig=(not config.PROD))
 
     return 0
 
