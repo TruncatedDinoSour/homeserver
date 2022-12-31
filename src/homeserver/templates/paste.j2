@@ -1,0 +1,24 @@
+{% extends "base.j2" %}
+
+{% block title %} public pastebin {% endblock %}
+{% block description %} public sqlite3-based pastebin {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/paste.css') }}">
+{% endblock %}
+
+{% block body %}
+<h1>make a new paste</h1>
+
+<ul>
+    <li>to delete a paste: add <code>/delete</code> after the paste url, e.g. /{{ url_for('paste.index') }}/t2Hp3bwTpB/delete</li>
+    <li>the <a href="{{ url_for('paste.index') }}/list">list of pastes is public</a></li>
+</ul>
+
+<form method="POST">
+    <textarea name="content" placeholder="your content ..."></textarea>
+    <input type="submit" value="paste !" />
+</form>
+{% endblock %}

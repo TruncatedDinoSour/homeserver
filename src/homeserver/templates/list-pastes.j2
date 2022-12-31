@@ -1,0 +1,24 @@
+{% extends "base.j2" %}
+
+{% block title %} homeserver index {% endblock %}
+{% block description %} homeserver subapp index {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script src="{{ url_for('static', filename='js/paste-batch-del.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<h1>available pastes</h1>
+
+{% if pastes %}
+<ul>
+    {% for tid, paste in pastes %}
+    <li><a href="{{ url_for('paste.index') }}/{{ tid }}">{{ tid }}</a> -- {{ paste | e | truncate(30) }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+    <i>no pastes in the database</i>
+{% endif %}
+{% endblock %}

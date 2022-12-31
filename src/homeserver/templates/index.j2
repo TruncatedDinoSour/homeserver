@@ -1,0 +1,23 @@
+{% extends "base.j2" %}
+
+{% block title %} homeserver index {% endblock %}
+{% block description %} homeserver subapp index {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block body %}
+<h1>homeserver subapp index</h1>
+
+{% if subapps %}
+<ul>
+    {% for subapp, subapp_desc in subapps.items() %}
+    <li><a href="/{{ subapp }}">{{ subapp }}</a> -- {{ subapp_desc }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+    <i>no subapps</i>
+{% endif %}
+{% endblock %}

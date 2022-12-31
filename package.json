@@ -1,0 +1,13 @@
+{
+    "name": "homeserver",
+    "version": "1.0.0",
+    "description": "source code of my personal home server",
+    "main": "",
+    "scripts": {},
+    "keywords": [],
+    "author": "Ari Archer <ari.web.xyz@gmail.com>",
+    "license": "GPLv3",
+    "devDependencies": {
+        "eslint": "^8.31.0"
+    }
+}
