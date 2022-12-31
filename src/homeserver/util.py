@@ -4,9 +4,8 @@
 
 from typing import Any
 
-import sqlalchemy
-from flask import (Blueprint, make_response, redirect, render_template,
-                   request, url_for)
+import sqlalchemy  # type: ignore
+from flask import make_response, redirect, url_for
 from werkzeug.wrappers.response import Response
 
 from . import config
