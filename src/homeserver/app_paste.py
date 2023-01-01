@@ -17,7 +17,7 @@ DB: dict[str, Any] = {}
 
 
 def prep_paste(_) -> None:
-    DB["engine"] = sqlalchemy.create_engine(util.sqlite_db_path("pastes"))  # type: ignore
+    DB["engine"] = sqlalchemy.create_engine(util.sqlite_db_path("paste"))  # type: ignore
     DB["base"] = declarative_base()
 
     class Paste(DB["base"]):  # type: ignore
@@ -46,7 +46,7 @@ def get_paste_by_tid(tid: str) -> str | None:
 
 @paste.get("/")
 def index() -> str:
-    return render_template("paste.j2")
+    return render_template("paste/index.j2")
 
 
 @paste.post("/")
@@ -61,15 +61,15 @@ def paste_content() -> Response:
         tid = paste_res.generate_id()
 
         try:
-            DB["session"].add(
+            util.exec_add(  # type: ignore
+                DB["session"],
                 DB["paste"](
                     tid=tid,
                     content=request.form["content"],
-                )
+                ),
             )
-            DB["session"].commit()
             ok = True
-        except sqlalchemy.exc.IntegrityError:
+        except sqlalchemy.exc.IntegrityError:  # type: ignore
             DB["session"].rollback()
 
     return redirect(url_for("paste.index") + tid)
@@ -80,12 +80,12 @@ def get_paste(tid: str) -> Response:
     return (
         util.redirect_view("paste.index", 404)
         if (paste := get_paste_by_tid(tid)) is None
-        else util.plain_text_resp(paste[0])
+        else util.plain_text_resp(paste.content)  # type: ignore
     )
 
 
-@paste.get("/<tid>/delete")
-def delete_paste(tid: str) -> Response:
+@paste.route("/<tid>", methods=["DELETE"])
+def delete_paste(tid: str) -> tuple[str, int]:
     status: int = 404
 
     if get_paste_by_tid(tid) is not None:
@@ -95,13 +95,13 @@ def delete_paste(tid: str) -> Response:
         )
         status = 302
 
-    return util.redirect_view("paste.index", status)
+    return "", status
 
 
 @paste.get("/list")
 def list_pastes() -> str:
     return render_template(
-        "list-pastes.j2",
+        "paste/list.j2",
         pastes=tuple(
             DB["session"].execute(f"SELECT * FROM {DB['paste'].__tablename__!r}")
         ),

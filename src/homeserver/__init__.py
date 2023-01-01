@@ -5,7 +5,7 @@
 import os
 from glob import glob
 
-from flask import Flask
+from flask import Flask, session
 
 from . import config
 
@@ -24,7 +24,7 @@ def register_dynamic_routes(app: Flask) -> None:
         name: str = mod_name[4:]
 
         try:
-            exec(f"from .{mod_name} import prep_{name}; prep_{name}(app)")
+            exec(f"""from .{mod_name} import prep_{name};prep_{name}(app)""")
         except ImportError:
             pass
 
@@ -41,7 +41,14 @@ def create_homeserver() -> Flask:
 
     app: Flask = Flask(__name__)
 
-    app.config["SECRET_KEY"] = config.RANDOM.randbytes(4096)
+    @app.before_request
+    def _() -> None:
+        session.permanent = True
+
+    app.config.update({   # type: ignore
+        "SECRET_KEY": config.RANDOM.randbytes(config.SECRET_KEY_SIZE),
+        "MAX_CONTENT_LENGTH": config.MAX_CONTENT_LENGTH,
+    })
 
     register_dynamic_routes(app)
 

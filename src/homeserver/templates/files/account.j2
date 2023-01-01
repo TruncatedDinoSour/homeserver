@@ -1,0 +1,29 @@
+{% extends "base.j2" %}
+
+{% block title %} homeserver files account management {% endblock %}
+{% block description %} upload files account management {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="form-group">
+    {% for route in ("up", "in") %}
+    <div class="form-wrapper">
+        <h1>sign {{ route }}</h1>
+
+        <form method="POST" action="{{ url_for('files.index') }}/account/sign{{ route }}">
+            <div>
+                <input required type="text" name="username" placeholder="username" />
+                <input type="password" name="password" placeholder="password" />
+            </div>
+
+            <input type="submit" value="sign {{ route }}" />
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

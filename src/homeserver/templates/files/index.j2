@@ -1,0 +1,43 @@
+{% extends "base.j2" %}
+
+{% block title %} homeserver files account management {% endblock %}
+{% block description %} upload files account management {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files.css') }}">
+
+    <script>window.del_cb = () => window.location.reload();</script>
+    <script type="module" src="{{ url_for('static', filename='js/del.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='js/files.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<nav>
+    <ul>
+        <li>
+            <form class="simple-form" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file[]" multiple directory webkitdirectory mozdirectory />
+                <input type="file" name="file[]" multiple />
+
+                <input type="submit" value="upload" />
+            </form>
+        </li>
+        <li><button id="signout">sign out</button></li>
+        <li><button id="delete-account">delete account</button></li>
+        <li><a href="export" target="_blank">export all of my files</a></li>
+    </ul>
+</nav>
+
+<div id="files">
+    <h1>press `CTRL + mouse` or `long touch` to <i>delete</i> a file or directory</h1>
+    <br />
+
+{% if files %}
+    {{ files }}
+{% else %}
+    <i>no files found</i>
+{% endif %}
+</div>
+{% endblock %}

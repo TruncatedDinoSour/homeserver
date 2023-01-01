@@ -1,0 +1,75 @@
+.form-group {
+    max-width: 800px;
+    min-width: 400px;
+    width: 50%;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.form-group .form-wrapper {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+.form-group .form-wrapper > h1 {
+    text-align: center;
+}
+
+.form-group .form-wrapper > form {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-gap: 1em;
+    display: 100%;
+    align-items: center;
+}
+
+.form-group .form-wrapper > form input {
+    margin: 0.3em;
+}
+
+.form-group .form-wrapper > form > div > input {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+}
+
+.form-group .form-wrapper > form > input[type="submit"] {
+    height: 100%;
+    width: 100%;
+}
+
+input[type="submit"],
+input[type="file"],
+button {
+    cursor: pointer;
+}
+
+input,
+button {
+    border: none;
+    border-radius: 2px;
+}
+
+#files {
+    padding: 1em;
+}
+
+.simple-form > * {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+.simple-form > input[type="submit"],
+nav button {
+    background-color: #101010;
+    padding: 0.5em;
+    width: 40%;
+}
+
+.simple-form > input[type="file"] {
+    padding: 0.1em;
+}

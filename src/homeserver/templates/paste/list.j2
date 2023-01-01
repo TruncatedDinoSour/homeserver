@@ -6,7 +6,7 @@
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <script src="{{ url_for('static', filename='js/paste-batch-del.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='js/del.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
