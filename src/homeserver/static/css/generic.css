@@ -33,10 +33,6 @@ li {
     margin: 0.5em;
 }
 
-code {
-    white-space: pre-wrap !important;
-}
-
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

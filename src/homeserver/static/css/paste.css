@@ -25,7 +25,8 @@ form > input {
 }
 
 
-form > input:hover {
+form > input:hover,
+form > input:focus {
     background-color: #101010;
     cursor: pointer;
 }

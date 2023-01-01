@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     background-color: black;
     color: whitesmoke;
     font-size: 1.1rem;
@@ -9,6 +11,7 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:focus {
     text-decoration: underline;
 }

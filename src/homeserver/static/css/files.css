@@ -67,9 +67,63 @@ button {
 nav button {
     background-color: #101010;
     padding: 0.5em;
-    width: 40%;
+    width: 100%;
+}
+
+
+.simple-form > input[type="submit"]:hover,
+nav button:hover,
+.simple-form > input[type="submit"]:focus,
+nav button:focus {
+    background-color: #121212;
 }
 
 .simple-form > input[type="file"] {
     padding: 0.1em;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+nav > ul > * {
+    margin-bottom: 0.9em;
+}
+
+nav {
+    justify-content: center;
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: 35% auto;
+}
+
+hr {
+    border-top: 2px solid whitesmoke;
+}
+
+@media only screen and (max-width: 700px) {
+    nav {
+        grid-template-columns: auto;
+    }
+
+    nav > ul {
+        border-top: 2px solid whitesmoke;
+        padding-top: 0.9em;
+        list-style: none;
+        padding: 0;
+    }
+
+    nav > ul > * {
+        margin-top: 1.5em;
+        border: 2px solid #101010;
+        padding: 0.5em;
+        text-align: center;
+    }
+
+    h1,
+    h2 {
+        word-break: break-all;
+        word-wrap: word-break;
+    }
 }

@@ -106,7 +106,7 @@ def index() -> Response | str:
         return flask.redirect(flask.url_for("files.index") + "/account")
 
     return flask.render_template(
-        "files/index.j2", files=generate_filetree(get_fp(flask.session["user-id"]))  # type: ignore
+        "files/index.j2", files=generate_filetree(get_fp(flask.session["user-id"])), user_id=flask.session["user-id"]  # type: ignore
     )
 
 

@@ -15,6 +15,11 @@
 
 {% block body %}
 <nav>
+    <div>
+        <h1>press `CTRL + mouse` or `long touch` to <i>delete</i> a file or directory, `press or touch` to download</h1>
+        <h2>signed in as <i>{{ user_id }}</i></h2>
+    </div>
+
     <ul>
         <li>
             <form class="simple-form" method="POST" enctype="multipart/form-data">
@@ -25,15 +30,14 @@
             </form>
         </li>
         <li><button id="signout">sign out</button></li>
-        <li><button id="delete-account">delete account</button></li>
+        <li><button id="delete-account">delete my account</button></li>
         <li><a href="export" target="_blank">export all of my files</a></li>
     </ul>
 </nav>
 
-<div id="files">
-    <h1>press `CTRL + mouse` or `long touch` to <i>delete</i> a file or directory</h1>
-    <br />
+<hr />
 
+<div id="files">
 {% if files %}
     {{ files }}
 {% else %}
