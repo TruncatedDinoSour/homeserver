@@ -25,7 +25,11 @@ function main() {
 
     function da(a) {
         fetch(`${a.href}`, { method: "DELETE" })
-            .then(() => (window.del_cb ?? a.parentElement.remove)(a))
+            .then(() => {
+                let uc = a.parentElement.parentElement.children.length;
+                (window.del_cb ?? (() => a.parentElement.remove()))();
+                if (!(uc - 1)) window.location.reload();
+            })
             .catch((e) => alert(e));
     }
 
