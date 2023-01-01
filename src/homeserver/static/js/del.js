@@ -25,7 +25,7 @@ function main() {
 
     function da(a) {
         fetch(`${a.href}`, { method: "DELETE" })
-            .then(() => (window.del_cb ?? a.parentElement.remove)())
+            .then(() => (window.del_cb ?? a.parentElement.remove)(a))
             .catch((e) => alert(e));
     }
 
