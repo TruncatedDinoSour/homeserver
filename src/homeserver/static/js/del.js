@@ -9,7 +9,7 @@ function on_long_press(element, callback) {
         timer = setTimeout(() => {
             timer = null;
             callback();
-        }, 400);
+        }, 404);
     });
 
     function cancel() {
@@ -24,13 +24,14 @@ function main() {
     register_keys((e) => (window.ctrled = e.ctrlKey));
 
     function da(a) {
-        fetch(`${a.href}`, { method: "DELETE" })
-            .then(() => {
-                let uc = a.parentElement.parentElement.children.length;
-                (window.del_cb ?? (() => a.parentElement.remove()))();
-                if (!(uc - 1)) window.location.reload();
-            })
-            .catch((e) => alert(e));
+        if (confirm(`do you want to delete ${a.href} ?`))
+            fetch(`${a.href}`, { method: "DELETE" })
+                .then(() => {
+                    let uc = a.parentElement.parentElement.children.length;
+                    (window.del_cb ?? (() => a.parentElement.remove()))();
+                    if (!(uc - 1)) window.location.reload();
+                })
+                .catch((e) => alert(e));
     }
 
     document.querySelectorAll("a").forEach((a) => {
