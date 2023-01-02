@@ -13,7 +13,9 @@ from typing import Any
 
 import psutil  # type: ignore
 from distro import name as get_distro_name  # type: ignore
-from flask import Blueprint, render_template, request  # type: ignore
+from flask import Blueprint
+from flask import __version__ as flask_version  # type: ignore
+from flask import render_template, request
 
 stats: Blueprint = Blueprint("stats", __name__)
 
@@ -40,7 +42,7 @@ def storage_usage_fmt(storage: Any, shift: int = 20, unit: str = "MB") -> str:
 
 @stats.get("/")
 def index() -> str:
-    uname = os.uname()
+    uname: os.uname_result = os.uname()
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
@@ -48,31 +50,50 @@ def index() -> str:
         ram = psutil.virtual_memory()
         swap = psutil.swap_memory()
         drive = psutil.disk_usage("/")
+        bat = psutil.sensors_battery()  # type: ignore
 
-    stats: dict[str, str] = {
-        "OS": f"{get_distro_name()} {sys.platform}",
-        "OS release": platform.release(),
-        "OS version": platform.version(),
-        "kernel": f"{uname.sysname} {uname.release} for {uname.machine}",
-        "shell": os.environ.get("SHELL") or "/bin/sh",
-        "CPU": f"{platform.processor()} [{psutil.cpu_percent()}%]",
-    }
-
-    for core, usage in enumerate(psutil.cpu_percent(percpu=True, interval=1), 1):  # type: ignore
-        stats[f"CPU{core}"] = f"{usage}%"
-
-    stats.update(
-        {
-            "RAM": storage_usage_fmt(ram),
-            "swap": storage_usage_fmt(swap),
-            "drive": storage_usage_fmt(drive, 30, "GB"),
-            "ip": get_ip(),
-            "pid": str(os.getpid()),
-            "processes": str(len(tuple(psutil.process_iter()))),
-            "uptime": f"{dt.timedelta(seconds=time_timestamp() - psutil.boot_time())}",
-            "loadavg": ", ".join(map(str, psutil.getloadavg())),
-            "request": request.remote_addr or "(null)",
-        }
-    )
-
-    return render_template("stats/index.j2", stats=stats)  # type: ignore
+    return render_template(
+        "stats/index.j2",
+        stats=(
+            {
+                "OS": f"{get_distro_name()} {sys.platform}",
+                "OS release": platform.release(),
+                "OS version": platform.version(),
+                "kernel": f"{uname.sysname} {uname.release} for {uname.machine}",
+                "shell": os.environ.get("SHELL") or "/bin/sh",
+            },
+            {
+                "time": str(dt.datetime.now()),
+                "processes": str(len(tuple(psutil.process_iter()))),
+                "uptime": f"{dt.timedelta(seconds=time_timestamp() - psutil.boot_time())}",
+                "loadavg": ", ".join(map(str, psutil.getloadavg())),
+            },
+            {
+                "RAM": storage_usage_fmt(ram),
+                "swap": storage_usage_fmt(swap),
+                "drive": storage_usage_fmt(drive, 30, "GB"),
+                "batery": f"{bat.percent}%",  # type: ignore
+            },
+            {
+                "CPU": f"{platform.processor()} [{psutil.cpu_percent()}%]",
+                **{
+                    f"CPU{core}": f"{usage}%" for core, usage in enumerate(psutil.cpu_percent(percpu=True, interval=1), 1)  # type: ignore
+                },
+            },
+            {
+                f"{name}[{t.label}]".lower(): f"{t.current} celsius"
+                for name, temps in psutil.sensors_temperatures().items()
+                for t in temps
+            },
+            {
+                "ip": get_ip(),
+                "pid": str(os.getpid()),
+            },
+            {
+                "request": request.remote_addr or "(null)",
+                "flask": flask_version,
+                "python": sys.version,
+                "api": str(sys.api_version),
+            },
+        ),
+    )  # type: ignore

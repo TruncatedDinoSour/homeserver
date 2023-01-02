@@ -10,10 +10,13 @@
 
 {% block body %}
 <h1>homeserver statistics</h1>
+<br />
 
+{% for stat in stats %}
 <ul>
-{% for stat, val in stats.items() %}
-    <li>{{ stat | e }} -- {{ val | e }}</li>
-{% endfor %}
+    {% for name, val in stat.items() %}
+        <li>{{ name | e }} -- {{ val | e }}</li>
+    {% endfor %}
 </ul>
+{% endfor %}
 {% endblock %}
