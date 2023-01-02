@@ -7,11 +7,12 @@ function main() {
             .catch((e) => alert(e))
     );
 
-    document.getElementById("delete-account").addEventListener("click", () =>
-        fetch("account", { method: "DELETE" })
-            .then(() => window.location.reload())
-            .catch((e) => alert(e))
-    );
+    document.getElementById("delete-account").addEventListener("click", () => {
+        if (confirm("are you sure you want to delete your account ?"))
+            fetch("account", { method: "DELETE" })
+                .then(() => window.location.reload())
+                .catch((e) => alert(e));
+    });
 }
 
 document.addEventListener("DOMContentLoaded", main);
