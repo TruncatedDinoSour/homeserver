@@ -1,0 +1,19 @@
+{% extends "base.j2" %}
+
+{% block title %} homeserver statistics {% endblock %}
+{% block description %} homeserver statistics {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block body %}
+<h1>homeserver statistics</h1>
+
+<ul>
+{% for stat, val in stats.items() %}
+    <li>{{ stat | e }} -- {{ val | e }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

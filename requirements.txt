@@ -1,2 +1,4 @@
 flask
 SQLAlchemy
+psutil
+distro
